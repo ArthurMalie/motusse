@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOTUSSE</title>
+    <link rel="icon" href="./assets/images/goat.png" />
+
+    <script src="https://kit.fontawesome.com/1c6130063c.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="main.css"/>
+</head>
+<body>
+    <div id="app">
+        <div id="input_container">
+            <div id="guess_input_container">
+                <input id="guess_input" type="text" onkeydown="return /[a-zA-Z]/i.test(event.key)">
+                <span id="guess_count"></span>
+            </div>
+            <div id="count_container"></div>
+            <div id="count_container2"></div>
+            <div id="tries_count">Essai <span id="current_try"></span>/<span id="max_tries"></span></div>
+            <div id="won">
+                <h1>YOU WON 👌</h1>
+            </div>
+            <div id="lost">
+                <h1>GROS CACA 💩</h1>
+                <h3>Le mot c'était : <span id="soluce"></span></h3>
+            </div>
+        </div>
+        <div id="right_container">
+            <div id="guesses_container">
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+
+<script src="main.js"></script>
+
+</html>
