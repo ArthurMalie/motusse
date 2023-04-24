@@ -38,21 +38,34 @@ const makeGuess = (input) => {
     // jInput.val(word[0]);
     jInput.val('');
     for (let i = 0; i < word.length; i++) {
+        letters[input[i]].tried = true;
         $(`#guess_${tries}_${i}`).html(input[i]);
         if(input[i] === word[i]) {
             $(`#guess_${tries}_${i}`).addClass('red');
             found[i] = undefined;
+            letters[input[i]].correct = true;
+            $(`#letters_container span[data-letter=${word[i]}]`).addClass('red-text').removeClass('yellow-text');
         } else {
             $(`#guess_${tries}_${i}`).removeClass('red');
         }
     }
     for (let i = 0; i < word.length; i++) {
         const foundIndex = found.indexOf(input[i]);
-        if(input[i] !== word[i] && foundIndex !== -1) {
-            found[foundIndex] = undefined;
-            $(`#guess_${tries}_${i}`).addClass('yellow');
+        if(input[i] !== word[i]) {
+            if(foundIndex !== -1) {
+                found[foundIndex] = undefined;
+                $(`#guess_${tries}_${i}`).addClass('yellow');
+                if(!letters[input[i]].correct) {
+                    $(`#letters_container span[data-letter=${input[i]}]`).addClass('yellow-text').removeClass('red-text');
+                }
+            }
+            if(!word.includes(input[i])) {
+                $(`#letters_container span[data-letter=${input[i]}]`).hide();
+                $(`#tried_letters_container span[data-letter=${input[i]}]`).show();
+            }
         }
     }
+    
     $(`#count_${tries}>img.heart`).hide();
     $(`#count_${tries}>img.cross`).css('display','block');
     tries++;
@@ -70,18 +83,14 @@ const makeGuess = (input) => {
             $('#won').show();
             jInput.prop('disabled', true);
         } else {
-            
+            const first = $(`#guess_${tries}_${0}`).addClass('red').html(word[0]);
+            if(word[0] === input[0])
+                first.addClass('red');
+            for (let j = 1; j < word.length ; j++) {
+                $(`#guess_${tries}_${j}`).html('_');
+            }
         }
         jTries.html(tries + 1);
-        const first = $(`#guess_${tries}_${0}`).addClass('red').html(word[0]);
-        // first;
-        if(word[0] === input[0])
-            first.addClass('red');
-        // else
-        //     first.removeClass('red');
-        for (let j = 1; j < word.length ; j++) {
-            $(`#guess_${tries}_${j}`).html('_');
-        }
     }
 };
 
@@ -98,10 +107,15 @@ const init = () => {
 
     const alpha = Array.from(Array(26)).map((e, i) => i + 65);
     alphabet = alpha.map((x) => String.fromCharCode(x));
-    alphabet.forEach(letter => letters[letter] = {
-        correct: word.includes(letter),
-        tried: word[0] === letter
-        
+    alphabet.forEach(letter => { 
+        letters[letter] = {
+            // correct: word.includes(letter),
+            correct: letter === word[0],
+            tried: word[0] === letter
+        };
+
+        $('#letters_container,#tried_letters_container').append(`<span data-letter="${letter}">${letter}</span>`);
+        $(`#letters_container span[data-letter=${word[0]}]`).addClass('red-text').removeClass('yellow-text');
     });
     
 
