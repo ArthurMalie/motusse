@@ -5,7 +5,7 @@ let alphabet;
 let words;
 let word;
 let found;
-const maxTries = 10;
+const maxTries = 3;
 let tries = 0;
 const guesses = [];
 const jInput = $('#guess_input');
@@ -72,15 +72,15 @@ const makeGuess = (input) => {
 
     if(tries === maxTries) {
         if(input === word) {
-            $('#won').show();
+            $('#won , #end_container').show();
         } else {
-            $('#lost').show();
+            $('#lost , #end_container').show();
             $('#soluce').html(word);
         }
         jInput.prop('disabled', true);
     } else {
         if(input === word) {
-            $('#won').show();
+            $('#won , #end_container').show();
             jInput.prop('disabled', true);
         } else {
             const first = $(`#guess_${tries}_${0}`).addClass('red').html(word[0]);
@@ -128,7 +128,7 @@ const init = () => {
     for (let i = 0; i < maxTries; i++) {
         let dom = '';
         for (let j = 0; j < word.length ; j++) {
-            dom += `<div id="guess_${i}_${j}" class="guess_letter ${j === 0 && i === 0 ? 'red' : ''}"> ${j === 0 && i === 0 ? word[0] : i === 0 ? '_' : ' '}  </div>`
+            dom += `<div id="guess_${i}_${j}" class="guess_letter${j === 0 && i === 0 ? ' red' : ''}"> ${j === 0 && i === 0 ? word[0] : i === 0 ? '_' : ' '}  </div>`
         }
         guessesContainer.append(dom);
     
@@ -140,6 +140,10 @@ const init = () => {
         `);
     }
     
+    // for (let j = 0; j < word.length ; j++) {
+    //     dom += `<div id="guess_${maxTries}_${j}" class="guess_letter last"> ${j === 0 && i === 0 ? word[0] : i === 0 ? '_' : ' '}  </div>`
+    // }
+
     $('body').not(jInput).on('keyup', (e) => {
         if(!jInput.is(':focus') && e.which >= 65 && e.which <= 90) {
             jInput.trigger('focus');
